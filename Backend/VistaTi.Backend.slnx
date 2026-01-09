@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="VistaTi.Api/VistaTi.Api.csproj" />
+  <Project Path="VistaTi.Tests/VistaTi.Tests.csproj" />
+</Solution>

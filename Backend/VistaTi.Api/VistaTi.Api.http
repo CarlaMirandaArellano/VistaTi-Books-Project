@@ -1,0 +1,6 @@
+@VistaTi.Api_HostAddress = http://localhost:5272
+
+GET {{VistaTi.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
