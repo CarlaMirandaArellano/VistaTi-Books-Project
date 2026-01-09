@@ -2,6 +2,11 @@
 
 Este proyecto es una solución Full-Stack diseñada para la búsqueda y gestión de libros favoritos. Integra la API externa de **Open Library**, un **Backend en .NET 8**, un **Frontend en Angular 18** y persistencia en **SQL Server** ejecutándose sobre **Docker**.
 
+**Hay ciertas funciones que no quedaron de la manera esperada y por tiempo no pude solucionar, por ejemplo para buscar un libro hay que presionar el ícono de arriba "Buscar Libros" para que la búsqueda se realice.**
+
+**Además generalmente hay que hacer click 2 veces para lograr las búsquedas y eliminar favoritos.**
+
+
 ##  Requisitos Previos
 
 Se necesita tener instalado:
