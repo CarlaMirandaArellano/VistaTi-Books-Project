@@ -6,6 +6,17 @@ Este proyecto es una solución Full-Stack diseñada para la búsqueda y gestión
 
 **Además generalmente hay que hacer click 2 veces para lograr las búsquedas y eliminar favoritos.**
 
+**Decisiones Técnicas**
+
+
+Arquitectura Decoupled: Se implementó un patrón de Servicios para separar la lógica de negocio y las llamadas HTTP externas de los controladores de la API.
+
+Persistencia Containerizada: Se optó por Docker para garantizar que la base de datos SQL Server sea idéntica en cualquier entorno de desarrollo sin necesidad de instalaciones locales complejas.
+
+Manejo de Datos de Autores: Debido a que la API de Open Library devuelve una lista de autores y SQL Server almacena tipos simples, se decidió persistir los autores como un string delimitado por comas, transformándolos dinámicamente en el Frontend.
+
+Gestión de Usuario Único: Por requerimiento técnico, se utiliza un UserId = 1 estático para todas las operaciones, simulando un perfil de usuario único sin añadir la complejidad de un sistema de autenticación completo (Auth0/Identity).
+
 
 ##  Requisitos Previos
 
@@ -84,14 +95,7 @@ dotnet test
 
 
 
- Decisiones Técnicas
-Arquitectura Decoupled: Se implementó un patrón de Servicios para separar la lógica de negocio y las llamadas HTTP externas de los controladores de la API.
-
-Persistencia Containerizada: Se optó por Docker para garantizar que la base de datos SQL Server sea idéntica en cualquier entorno de desarrollo sin necesidad de instalaciones locales complejas.
-
-Manejo de Datos de Autores: Debido a que la API de Open Library devuelve una lista de autores y SQL Server almacena tipos simples, se decidió persistir los autores como un string delimitado por comas, transformándolos dinámicamente en el Frontend.
-
-Gestión de Usuario Único: Por requerimiento técnico, se utiliza un UserId = 1 estático para todas las operaciones, simulando un perfil de usuario único sin añadir la complejidad de un sistema de autenticación completo (Auth0/Identity).
+ 
 
 
 
