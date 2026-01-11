@@ -23,6 +23,44 @@ Se necesita tener instalado:
 * **Node.js (v18+)** y **Angular CLI**: Para el entorno del Frontend.
 * **Git**: Para el control de versiones.
 
+
+
+VistaTi-Books-Project/
+│
+├── Database/                  # Scripts SQL y diseño de la base de datos
+│   └── (Scripts de creación de tablas Favorites)
+│
+├── Backend/                   # Proyecto .NET Core Web API
+│   ├── Controllers/
+│   │   └── BooksController.cs # Endpoints: Search, GetFavorites, Add, Delete
+│   ├── Models/
+│   │   ├── Favorite.cs        # Entidad de Base de Datos (Entity Framework)
+│   │   └── BookDto.cs         # Objeto de transferencia de datos
+│   ├── Services/
+│   │   └── BookService.cs     # Lógica para conectar con Open Library API
+│   ├── Data/
+│   │   └── AppDbContext.cs    # Configuración de conexión a SQL Server
+│   └── Program.cs             # Configuración de Inyección de Dependencias y CORS
+│
+├── Frontend/                  # Proyecto Angular 18+ (Standalone)
+│   ├── src/
+│   │   ├── app/
+│   │   │   ├── components/    # Componentes visuales
+│   │   │   │   ├── book-search/
+│   │   │   │   └── favorites/
+│   │   │   ├── services/      # Lógica compartida y Estado
+│   │   │   │   ├── book.service.ts         # Llamadas HTTP al Backend
+│   │   │   │   └── search-state.service.ts # Memoria de la búsqueda (Singleton)
+│   │   │   ├── app.component.html # Estructura con estilos inline
+│   │   │   ├── app.routes.ts      # Definición de rutas (/search, /favorites)
+│   │   │   └── app.config.ts      # Configuración global del cliente
+│   │   ├── assets/            # Imágenes y recursos estáticos
+│   │   └── styles.css         # Estilos globales de la aplicación
+│   ├── package.json           # Dependencias (tslib, rxjs, etc.)
+│   └── angular.json           # Configuración del CLI de Angular
+│
+└── .gitignore                 # Archivos excluidos de Git (node_modules, bin, obj)
+
 ---
 
 ##  1. Configuración de la Base de Datos (Docker)
@@ -93,6 +131,10 @@ dotnet test
 
 
  
+
+
+
+
 
 
 
