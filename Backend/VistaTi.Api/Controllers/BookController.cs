@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore; // Asegúrate de tener esta importación
+using Microsoft.EntityFrameworkCore; 
 using VistaTi.Api.DTOs;
 using VistaTi.Api.Models;
 using VistaTi.Api.Services;
@@ -11,7 +11,7 @@ namespace VistaTi.Api.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
-    // Cambiamos ApplicationDbContext por AppDbContext
+    
     private readonly AppDbContext _context; 
     private readonly BookService _bookService;
 
@@ -38,7 +38,7 @@ public class BooksController : ControllerBase
     public async Task<IActionResult> GetFavorites()
     {
         try {
-            // Es mejor traerlos directamente del context para asegurar que ves lo de SQL
+            // Se traen directamente del context para asegurar que ves lo de SQL
             var favorites = await _context.Favorites.Where(f => f.UserId == 1).ToListAsync();
             return Ok(favorites);
         } catch (Exception ex) {
