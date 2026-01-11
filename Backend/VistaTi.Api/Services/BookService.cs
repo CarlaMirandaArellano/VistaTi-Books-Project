@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using VistaTi.Api.Models;
-using VistaTi.Api.Data; // Asegúrate de que este sea el namespace de tu AppDbContext
-
+using VistaTi.Api.Data;
 namespace VistaTi.Api.Services;
 
 public class BookService
