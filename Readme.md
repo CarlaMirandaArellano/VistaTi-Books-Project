@@ -53,7 +53,7 @@ El proyecto utiliza **SQL Server 2022**. Siga estos pasos para preparar el entor
 
 ---
 
-## ⚙️ 2. Configuración del Backend (.NET)
+##  2. Configuración del Backend (.NET)
 
 1.  **Connection String:**
     Verifique que el archivo `Backend/VistaTi.Api/appsettings.json` contenga las credenciales correctas:
