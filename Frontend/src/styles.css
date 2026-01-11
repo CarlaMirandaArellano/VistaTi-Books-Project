@@ -1,0 +1,23 @@
+body {
+    margin: 0;
+    background-color: #f8f9fa;
+  }
+  
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: #343a40 !important;
+    color: white;
+  }
+  
+  nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px;
+  }
+  
+  nav a:hover {
+    color: #ffc107;
+  }

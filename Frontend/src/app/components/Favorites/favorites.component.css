@@ -1,0 +1,11 @@
+
+.book-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  
+ 
+  .empty-state {
+    text-align: center;
+    padding: 50px;
+    color: #666;
+  }

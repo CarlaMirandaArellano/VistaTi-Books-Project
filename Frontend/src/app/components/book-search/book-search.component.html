@@ -1,0 +1,37 @@
+<div class="search-container">
+  <h2>🔍 Buscador de Libros (Open Library)</h2>
+  
+  <div class="input-group">
+    <input 
+      type="text" 
+      [(ngModel)]="query" 
+      placeholder="Escribe el nombre de un libro o autor..." 
+      (keyup.enter)="search()"
+      [disabled]="loading">
+      
+    <button type="button" (click)="search()" [disabled]="loading">
+      {{ loading ? 'Buscando...' : 'Buscar' }}
+    </button>
+  </div>
+
+  <div class="results-grid" *ngIf="!loading">
+    <div class="book-card" *ngFor="let book of books">
+      <img [src]="book.coverUrl || 'https://via.placeholder.com/150x200?text=No+Cover'" alt="Portada">
+      
+      <div class="book-info">
+        <h3>{{ book.title }}</h3>
+        <p><strong>Año:</strong> {{ book.firstPublishYear }}</p>
+        
+        <button class="btn-fav" (click)="addToFavorites(book)">⭐ Favorito</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" style="text-align: center; padding: 20px;">
+      <p>Buscando en la biblioteca...</p>
+  </div>
+
+  <div *ngIf="books.length === 0 && !loading" style="text-align: center; color: #666; margin-top: 20px;">
+    <p>Ingresa un término para comenzar la búsqueda o intenta con otro nombre.</p>
+  </div>
+</div>
