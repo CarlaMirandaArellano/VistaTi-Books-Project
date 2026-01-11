@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookService } from '../../services/book.service';
-import { Book } from '../../models/book.model';
+
 import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -21,7 +21,7 @@ export class BookSearchComponent {
 
   search() {
     if (!this.query.trim()) return;
-    
+
     this.loading = true;
     this.books = []; // Limpiamos la lista anterior para que el usuario vea que algo pasa
 
@@ -30,7 +30,7 @@ export class BookSearchComponent {
         // CORRECCIÓN CLAVE: Open Library devuelve un objeto, no un array directo.
         // Debemos buscar la propiedad 'docs'
         const rawData = typeof response === 'string' ? JSON.parse(response) : response;
-        
+
         if (rawData && rawData.docs) {
           // Mapeamos para que las portadas funcionen de una vez
           this.books = rawData.docs.map((b: any) => ({
@@ -54,16 +54,14 @@ export class BookSearchComponent {
 addToFavorites(book: any) {
   const favoritePayload = {
     title: book.title,
-    externalId: book.externalId || book.key,
-    coverUrl: book.coverUrl || '',
+    externalId: book.externalId,
+    coverUrl: book.coverUrl,
     userId: 1
   };
 
   // El casteo 'as any' silencia el error TS2345 de tu captura
   this.bookService.addFavorite(favoritePayload as any).subscribe({
     next: (res: any) => {
-      // CLAVE: Asignamos el ID que viene de SQL al objeto local
-      book.id = res.id || res.Id; 
       alert('¡Agregado a favoritos!');
     },
     error: (err) => console.error('Bad Request 400:', err.error)

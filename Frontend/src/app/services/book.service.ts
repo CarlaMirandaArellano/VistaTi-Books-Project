@@ -38,23 +38,28 @@ export class BookService {
 
   // REQUERIMIENTO 2: Agregar favorito
   addFavorite(book: Book): Observable<any> {
-    return this.http.post(`${this.apiUrl}/favorites`, book).pipe(
-      tap(() => {
+    return this.http.post<Book>(`${this.apiUrl}/favorites`, book).pipe(
+      tap((createdBook) => {
         const current = this.favoritesSubject.value;
-        this.favoritesSubject.next([...current, book]);
+        this.favoritesSubject.next([...current, createdBook]);
       })
     );
   }
 
   // REQUERIMIENTO 2: Eliminar favorito
-  deleteFavorite(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/favorites/${id}`).pipe(
-      tap(() => {
-        this.loadFavorites(); 
-      })
-    );
-  }
-}; 
+  deleteFavorite(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/favorites/${id}`).pipe(
+    tap(() => {
+      const current = this.favoritesSubject.value;
+      this.favoritesSubject.next(
+        current.filter(fav => fav.id !== id)
+      );
+    })
+  );
+}
 
-  
+
+};
+
+
 

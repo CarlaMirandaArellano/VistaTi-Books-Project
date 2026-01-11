@@ -1,17 +1,17 @@
 <!-- <div class="search-container">
     <h2>⭐ Mis Libros Favoritos</h2>
-    
+
     <div *ngIf="favorites.length === 0" style="text-align: center; padding: 20px;">
       <p>Aún no tienes libros guardados en tu base de datos SQL Server.</p>
       <a routerLink="/search">Ir a buscar libros</a>
     </div>
-  
+
     <div class="results-grid">
       <div class="book-card" *ngFor="let fav of favorites"> <img [src]="fav.coverUrl || 'https://via.placeholder.com/150x200?text=No+Cover'" alt="Cover">
         <div class="book-info">
           <h3>{{ fav.title || fav.Title }}</h3>
           <p><strong>Año:</strong> {{ fav.firstPublishYear }}</p>
-          
+
           <button class="btn-delete" (click)="removeFavorite(fav.id || fav.Id)">
             🗑️ Eliminar
           </button>
@@ -20,18 +20,20 @@
   </div> -->
   <div class="search-container">
     <h2>⭐ Mis Libros Favoritos</h2>
-    
-    <div *ngIf="favorites.length === 0" style="text-align: center; padding: 20px;">
+
+    <div *ngIf="(favorites$ | async)?.length === 0" style="text-align: center; padding: 20px;">
       <p>Aún no tienes libros guardados en tu base de datos SQL Server.</p>
       <a routerLink="/search">Ir a buscar libros</a>
     </div>
-  
+
     <div class="favorites-grid">
-      <div class="book-card" *ngFor="let fav of favorites">
-        <img [src]="fav.coverUrl || fav.CoverUrl" alt="Portada">
-        <h3>{{ fav.title || fav.Title }}</h3>
-        
-        <button (click)="removeFavorite(fav.id || fav.Id)">🗑️ Eliminar</button>
+      <div class="book-card" *ngFor="let fav of favorites$ | async">
+           <img [src]="fav.coverUrl" alt="Portada">
+      <h3>{{ fav.title }}</h3>
+
+      <button (click)="removeFavorite(fav.id)">
+        🗑️ Eliminar
+      </button>
         </div>
       </div>
   </div>

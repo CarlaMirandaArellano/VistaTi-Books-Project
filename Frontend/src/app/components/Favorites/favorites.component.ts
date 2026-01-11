@@ -1,55 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { BookService } from '../../services/book.service';
 import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+import { Book } from '../../models/book.model';
+
 
 @Component({
   selector: 'app-favorites',
-  standalone: true, 
+  standalone: true,
   imports: [CommonModule], // <--- ESTO ACTIVA *ngIf y *ngFor
   templateUrl: './favorites.component.html',
   styleUrls: ['./favorites.component.css']
 })
-export class FavoritesComponent implements OnInit {
-  favorites: any[] = [];
+export class FavoritesComponent {
 
-  constructor(private bookService: BookService) {}
+  favorites$: Observable<Book[]>;
 
-  ngOnInit(): void {
-    this.loadFavorites();
+  constructor(private bookService: BookService) {
+    this.favorites$ = this.bookService.getFavorites();
   }
 
-  loadFavorites(): void {
-    this.bookService.getFavorites().subscribe({
-      next: (data) => {
-        this.favorites = data;
-        console.log('Datos cargados de SQL:', this.favorites);
-      },
-      error: (err) => console.error('Error al cargar:', err)
-    });
-  }
+removeFavorite(id: number) {
+  this.bookService.deleteFavorite(id).subscribe();
+}
 
-  removeFavorite(id: any) {
-    const idABorrar = Number(id);
-    if (!idABorrar) return;
-  
-    console.log('Solicitando borrar ID:', idABorrar);
-  
-    this.bookService.deleteFavorite(idABorrar).subscribe({
-      next: () => {
-        console.log('Borrado exitoso en SQL');
-        // USAMOS UNA NUEVA REFERENCIA: Esto obliga a Angular a refrescar la pantalla
-        this.favorites = [...this.favorites.filter(fav => {
-          const currentId = fav.id ?? fav.Id; 
-          return Number(currentId) !== idABorrar;
-        })];
-      },
-      error: (err) => {
-        // Si el servidor da 404, significa que ya no existe en DB, 
-        // así que igual lo quitamos de la vista para limpiar la pantalla.
-        if (err.status === 404) {
-          this.favorites = [...this.favorites.filter(fav => (fav.id ?? fav.Id) !== idABorrar)];
-        }
-      }
-    });
-  }
+
+
+
 }
