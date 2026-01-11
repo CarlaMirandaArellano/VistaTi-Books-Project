@@ -8,7 +8,7 @@ Este proyecto es una solución Full-Stack diseñada para la búsqueda y gestión
 
 Arquitectura Decoupled: Se implementó un patrón de Servicios para separar la lógica de negocio y las llamadas HTTP externas de los controladores de la API.
 
-Persistencia Containerizada: Se optó por Docker para garantizar que la base de datos SQL Server sea idéntica en cualquier entorno de desarrollo sin necesidad de instalaciones locales complejas.
+Persistencia Containerizada: Se optó por Docker para garantizar que la base de datos SQL Server sea idéntica en cualquier entorno de desarrollo sin necesidad de instalaciones locales complejas, además se trabajó con MacOS.
 
 Manejo de Datos de Autores: Debido a que la API de Open Library devuelve una lista de autores y SQL Server almacena tipos simples, se decidió persistir los autores como un string delimitado por comas, transformándolos dinámicamente en el Frontend.
 
@@ -19,7 +19,7 @@ Gestión de Usuario Único: Por requerimiento técnico, se utiliza un UserId = 1
 
 Se necesita tener instalado:
 * **Docker Desktop**: Necesario para el contenedor de base de datos.
-* **.NET 8 SDK**: Para el entorno de ejecución del Backend.
+* **.NET 10 SDK**: Para el entorno de ejecución del Backend.
 * **Node.js (v18+)** y **Angular CLI**: Para el entorno del Frontend.
 * **Git**: Para el control de versiones.
 
