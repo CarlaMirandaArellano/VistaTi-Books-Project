@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using VistaTi.Api.Data;
 using VistaTi.Api.Services;
+using System.Text.Json; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,14 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers();
+
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Esto hace que el Backend entienda tanto "Title" como "title"
+        options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

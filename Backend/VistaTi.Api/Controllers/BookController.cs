@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore; // Asegúrate de tener esta importación
 using VistaTi.Api.DTOs;
 using VistaTi.Api.Models;
 using VistaTi.Api.Services;
+using VistaTi.Api.Data;
 
 namespace VistaTi.Api.Controllers;
 
@@ -9,10 +11,13 @@ namespace VistaTi.Api.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
+    // Cambiamos ApplicationDbContext por AppDbContext
+    private readonly AppDbContext _context; 
     private readonly BookService _bookService;
 
-    public BooksController(BookService bookService)
+    public BooksController(AppDbContext context, BookService bookService)
     {
+        _context = context;
         _bookService = bookService;
     }
 
@@ -33,7 +38,8 @@ public class BooksController : ControllerBase
     public async Task<IActionResult> GetFavorites()
     {
         try {
-            var favorites = await _bookService.GetFavoritesAsync(1);
+            // Es mejor traerlos directamente del context para asegurar que ves lo de SQL
+            var favorites = await _context.Favorites.Where(f => f.UserId == 1).ToListAsync();
             return Ok(favorites);
         } catch (Exception ex) {
             return StatusCode(500, $"Error: {ex.Message}");
@@ -45,27 +51,45 @@ public class BooksController : ControllerBase
     {
         if (bookDto == null) return BadRequest("Datos inválidos.");
 
-        var favorite = new Favorite {
-            ExternalId = bookDto.ExternalId,
-            Title = bookDto.Title,
-            Authors = bookDto.Authors != null ? string.Join(", ", bookDto.Authors) : "Desconocido",
-            FirstPublishYear = bookDto.FirstPublishYear,
-            CoverUrl = bookDto.CoverUrl,
-            UserId = 1 
-        };
+        try 
+        {
+            // Verificamos si ya existe para evitar duplicados (Error 409)
+            var exists = await _context.Favorites.AnyAsync(f => f.ExternalId == bookDto.ExternalId && f.UserId == 1);
+            if (exists) return Conflict("El libro ya está en tus favoritos.");
 
-        var success = await _bookService.AddFavoriteAsync(favorite);
-        if (!success) return Conflict("Ya es favorito.");
+            var favorite = new Favorite {
+                ExternalId = bookDto.ExternalId,
+                Title = bookDto.Title,
+                Authors = bookDto.Authors != null ? string.Join(", ", bookDto.Authors) : "Desconocido",
+                FirstPublishYear = bookDto.FirstPublishYear,
+                CoverUrl = bookDto.CoverUrl,
+                UserId = 1 
+            };
 
-        // CAMBIO CRÍTICO: Devolvemos el objeto 'favorite' que ya tiene el ID de SQL
-        return Ok(favorite); 
+            _context.Favorites.Add(favorite);
+            await _context.SaveChangesAsync(); // Aquí se genera el ID real
+
+            return Ok(favorite); 
+        }
+        catch (Exception ex) 
+        {
+            return StatusCode(500, $"Error interno al guardar: {ex.Message}");
+        }
     }
 
     [HttpDelete("favorites/{id}")]
     public async Task<IActionResult> DeleteFavorite(int id)
     {
-        var success = await _bookService.DeleteFavoriteAsync(id);
-        if (!success) return NotFound(new { message = "No existe." });
-        return Ok(new { message = "Eliminado correctamente." });
+        try {
+            var favorite = await _context.Favorites.FindAsync(id);
+            if (favorite == null) return NotFound(new { message = "El libro no existe en favoritos." });
+
+            _context.Favorites.Remove(favorite);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Eliminado correctamente." });
+        } catch (Exception ex) {
+            return StatusCode(500, $"Error al eliminar: {ex.Message}");
+        }
     }
 }
