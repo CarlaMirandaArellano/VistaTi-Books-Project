@@ -1,6 +1,7 @@
 # VistaTi Books Project
 
-Este proyecto es una solución Full-Stack diseñada para la búsqueda y gestión de libros favoritos. Integra la API externa de **Open Library**, un **Backend en .NET 10**, un **Frontend en Angular 18**, los comandos se realizan con **Powershell** y persistencia en **SQL Server** ejecutándose sobre **Docker**.
+Este proyecto es una solución Full-Stack diseñada para la búsqueda y gestión de libros favoritos. Integra la API externa de **Open Library**, un **Backend en .NET 10**, un **Frontend en Angular 18**, los comandos se realizan con **ZSH
+** y persistencia en **SQL Server** ejecutándose sobre **Docker**.
 
 
 **Decisiones Técnicas**
